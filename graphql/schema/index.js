@@ -19,6 +19,11 @@ input TodoInput {
   duration: String
   notes: String
 }
+type AuthData {
+  userId: ID!
+  token: String!
+  tokenExpiration: Int!
+}
 type User {
   _id: ID!
   email: String!
@@ -31,6 +36,7 @@ input UserInput {
 }
 type RootQuery {
   todos: [Todo!]
+  login(email: String!, password:String!) : AuthData!
 }
 type RootMutation {
   createTodo(todoInput: TodoInput): Todo

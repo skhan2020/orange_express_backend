@@ -4,12 +4,25 @@ const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
 const graphqlSchema = require('../graphql/schema/index')
 const graphqlResolvers = require('../graphql/resolvers/index')
+const isAuth = require('../middleware/is-auth')
 
-const Todo = require ('../models/todo')
-const User = require ('../models/user')
 var app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+app.use(( req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200)
+  }
+  next();
+})
+
+// will run this middleware on every incoming request to the 
+// graphql endpoint
+app.use(isAuth);
 
 app.use('/graphqlapi', graphqlHttp({
   schema: graphqlSchema,
