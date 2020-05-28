@@ -24,6 +24,9 @@ app.use(( req, res, next) => {
 // graphql endpoint
 app.use(isAuth);
 
+// a middleware that will funnel all API request 
+// to graphql schemas and resolvers
+// http://localhost:4000/graphqlapi?
 app.use('/graphqlapi', graphqlHttp({
   schema: graphqlSchema,
   rootValue: graphqlResolvers,

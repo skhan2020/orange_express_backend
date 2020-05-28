@@ -12,14 +12,15 @@ const todoSchema = new Schema({
     required: true
   },
   status: {
-    type: String, 
+    type: Number, 
     required: true
   },
-  startTime: {
-    type: Date
+  statusUpdatedTime: {
+    type: Date, 
+    required: true
   },
-  duration: {
-    type: String
+  projectedStartTime: {
+    type: Date
   },
   notes: {
     type: String

@@ -1,7 +1,17 @@
-const bcrypt = require('bcryptjs')
+const Dataloader = require('dataloader')
 
 const Todo = require('../../models/todo')
 const User = require('../../models/user')
+
+const todoLoader = new Dataloader((todoIds) => {
+  return todos(todoIds)
+})
+
+const userLoader = new Dataloader(userIds => {
+  // userIds are list of objects 
+  // not string like you would expect
+  return User.find({_id: {$in: userIds}})
+})
 
 const todos = todoIds => {
   return Todo.find({_id: {$in: todoIds}})
@@ -16,11 +26,12 @@ const todos = todoIds => {
 }
 
 const user = userId => {
-  return User.findById(userId).then(
+  return userLoader.load(userId.toString()).then(
     user => {
+      console.log(user)
       return {...user._doc,
         _id: user.id,
-        createdTodos: todos.bind(this, user._doc.createdTodos)} // calls the above function
+        createdTodos: () => todoLoader.loadMany(user._doc.createdTodos)} // calls the above function
     }
   )
   .catch(err =>
@@ -29,13 +40,14 @@ const user = userId => {
 }
 
 module.exports = {   // resolver
-  todos: () => {
-    return Todo.find()
+  todos: (args, req) => {
+    return Todo.find({creator: req.userId})
     .then(todos => {
       return todos.map(todo => {
         return {...todo._doc,
                 _id: todo.id,
-                startTime: new Date(todo._doc.startTime).toISOString(),
+                statusUpdatedTime: new Date(todo._doc.statusUpdatedTime).toISOString(),
+                projectedStartTime: new Date(todo._doc.projectedStartTime).toISOString(),
                 creator: user.bind(this, todo._doc.creator)}  // creates a new object with out any matadata
       })
     }
@@ -49,17 +61,19 @@ module.exports = {   // resolver
       type: args.todoInput.type,
       description: args.todoInput.description,
       status: args.todoInput.status,
-      startTime: new Date(args.todoInput.startTime),
-      duration: args.todoInput.duration,
+      statusUpdatedTime: new Date(args.todoInput.statusUpdatedTime),
+      projectedStartTime: new Date(args.todoInput.projectedStartTime),
       notes: args.todoInput.notes,
       creator: req.userId // mongoose automaticaly converst this to an objectID that is used in the DB
    });
    let createdTodo;
+   // mongoose function to save to database
    return todo.save()
    .then(
      result => {
        createdTodo = {...result._doc, _id: result.id,
-        startTime: new Date(todo._doc.startTime).toISOString(),
+        projectedStartTime: new Date(result._doc.projectedStartTime).toISOString(),
+        statusUpdatedTime: new Date(result._doc.statusUpdatedTime).toISOString(),
         creator: user.bind(this, result._doc.creator)};
        return User.findById(req.userId)
      }
@@ -76,5 +90,12 @@ module.exports = {   // resolver
     return createdTodo;
    })
    .catch(err => console.log(err));
+  },
+  deleteTodo: async args => {
+    try {
+      await Todo.findByIdAndDelete(args.todoId).populate('todo');
+    } catch(err) {
+      throw err; 
+    }
   }
 }

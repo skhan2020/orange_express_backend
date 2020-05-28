@@ -21,11 +21,15 @@ module.exports = {   // resolver
     })
     .then(
       result => {
-        return {...result._doc, password: null, _id: result.id};  // id converted explicitly to string here  //  ...result._doc will return only waht we need, leaving metadata information out
+        // id converted explicitly to string here  
+        //  ...result._doc will return only what we need, leaving metadata information out
+        return {...result._doc, password: null, _id: result.id};  
       }
     )
     .catch(err =>
-      {throw err}
+      {
+        throw err
+      }
       );
   },
   login: async ({email, password}) => {
