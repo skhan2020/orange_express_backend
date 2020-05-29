@@ -30,12 +30,20 @@ type AuthData {
 type User {
   _id: ID!
   email: String!
+  firstName: String
+  lastName: String
+  type: String
   password: String
   createdTodos: [Todo!]
+  createdAt: String!
+  updatedAt: String!
 }
 input UserInput {
   email: String!
   password: String!
+  firstName: String!
+  lastName: String!
+  type: String!
 }
 type Status {
   _id: ID!
