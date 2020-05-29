@@ -59,7 +59,7 @@ input StatusInput {
 type RootQuery {
   todos: [Todo!]
   statuses(todo: String!): [Status!]
-  login(email: String!, password:String!) : AuthData!
+  login(email: String!, password:String!, expiration:Int!) : AuthData!
 }
 type RootMutation {
   createUser(userInput: UserInput): User

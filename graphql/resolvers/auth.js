@@ -37,10 +37,20 @@ module.exports = {   // resolver
       }
       );
   },
-  login: async ({email, password}) => {
+  login: async ({email, password, expiration}) => {
+    const milisecondInADay = 24 * 60 * 60 * 1000;
     const user = await User.findOne({email: email});
     if (!user) {
       throw new Error("user_not_found");
+    }
+    // check trial expiration date
+    const createdAt = new Date(user.createdAt);
+    if (expiration !== 0) {
+      const timePassed = Date.now() - createdAt.getTime();
+      const noOfDaysExceeded = timePassed > expiration * milisecondInADay;
+      if (noOfDaysExceeded) {
+        throw new Error("trial_expired");
+      }
     }
     const isSameUser = await bcrypt.compare(password, user.password);
     if (!isSameUser) {
