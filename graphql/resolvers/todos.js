@@ -51,19 +51,22 @@ module.exports = {   // resolver
                 creator: user.bind(this, todo._doc.creator)}  // creates a new object with out any matadata
       })
     }
-    ).catch(err => console.log(MediaError))
+    ).catch(err => console.log(err))
   },
   createTodo: (args, req) => {
    if (!req.isAuth) {
     throw new Error('Unauthenticated!')
    }
+   console.log(args.todoInput);
    const todo = new Todo({
-      type: args.todoInput.type,
-      description: args.todoInput.description,
+      category: args.todoInput.category,
+      title: args.todoInput.title,
       status: args.todoInput.status,
       statusUpdatedTime: new Date(args.todoInput.statusUpdatedTime),
       projectedStartTime: new Date(args.todoInput.projectedStartTime),
+      projectedEndTime: new Date(args.todoInput.projectedEndTime),
       notes: args.todoInput.notes,
+      tags: args.todoInput.tags,
       creator: req.userId // mongoose automaticaly converst this to an objectID that is used in the DB
    });
    let createdTodo;

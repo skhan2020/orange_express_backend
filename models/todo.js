@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const todoSchema = new Schema({
-  type: {
+  category: {
     type: String, 
     required: true
   },
-  description: {
+  title: {
     type: String, 
     required: true
   },
@@ -22,14 +22,21 @@ const todoSchema = new Schema({
   projectedStartTime: {
     type: Date
   },
+  projectedEndTime: {
+    type: Date
+  },
   notes: {
     type: String
   },
+  tags: [{
+    type: String
+  }],
   creator: {
     type:Schema.Types.ObjectId,
     ref: 'User'
   }
-});
+},
+{timestamps: true});
 
 module.exports = mongoose.model('Todo', todoSchema);
 

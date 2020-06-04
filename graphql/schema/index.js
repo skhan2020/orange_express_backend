@@ -6,21 +6,27 @@ const {buildSchema} = require('graphql')
 module.exports = buildSchema(`
 type Todo {
   _id: ID!
-  type: String!
-  description: String!
+  category: String!
+  title: String!
   projectedStartTime: String!
+  projectedEndTime: String!
   status: String!
   statusUpdatedTime: String!
   notes: String
   creator: User!
+  tags: [String!]
+  createdAt: String!
+  updatedAt: String!
 }
 input TodoInput {
-  type: String!
-  description: String!
+  category: String!
+  title: String!
   projectedStartTime: String!
+  projectedEndTime: String!
   status: Int!
   statusUpdatedTime: String!
   notes: String
+  tags: [String!]
 }
 type AuthData {
   userId: ID!
