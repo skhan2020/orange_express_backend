@@ -70,8 +70,9 @@ type RootQuery {
 type RootMutation {
   createUser(userInput: UserInput): User
   createTodo(todoInput: TodoInput): Todo
+  UpdateTodo(todoInput: TodoInput): Todo
   deleteTodo(todoId: ID!): Todo
-  updateTodo(todoId: ID!): Todo
+  updateTodo(id:ID!, projectedStartTime:String, projectedEndTime:String, status:Int, notes:String, statusUpdatedTime: String): Todo
   addStatus(statusInput: StatusInput): Status
 }
 schema {
