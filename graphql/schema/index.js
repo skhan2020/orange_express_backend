@@ -72,7 +72,7 @@ type RootMutation {
   createTodo(todoInput: TodoInput): Todo
   UpdateTodo(todoInput: TodoInput): Todo
   deleteTodo(todoId: ID!): Todo
-  updateTodo(id:ID!, projectedStartTime:String, projectedEndTime:String, status:Int, notes:String, statusUpdatedTime: String): Todo
+  updateTodo(id:ID!, projectedStartTime:String, projectedEndTime:String, status:Int, notes:String, statusUpdatedTime: String, tags: [String!]): Todo
   addStatus(statusInput: StatusInput): Status
 }
 schema {

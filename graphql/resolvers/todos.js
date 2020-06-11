@@ -54,7 +54,7 @@ module.exports = {   // resolver
     }
     ).catch(err => console.log(err))
   },
-  updateTodo: async ({id, projectedStartTime, projectedEndTime, status, notes, statusUpdatedTime}, req) => {
+  updateTodo: async ({id, projectedStartTime, projectedEndTime, status, notes, statusUpdatedTime, tags}, req) => {
     if (!req.isAuth) {
      throw new Error('Unauthenticated!')
     }
@@ -70,6 +70,7 @@ module.exports = {   // resolver
     todo.projectedStartTime = new Date(projectedStartTime) || todo.projectedStartTime;
     todo.projectedEndTime = new Date(projectedEndTime) || todo.projectedEndTime;
     todo.notes = notes || todo.notes;
+    todo.tags = tags || todo.tags;
     todo.status = status || todo.status;
     todo.statusUpdatedTime = statusUpdatedTime || todo.statusUpdatedTime;
     let updatedTodo;
