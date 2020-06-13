@@ -6,13 +6,12 @@ module.exports = {   // resolver
      throw new Error('Unauthenticated!')
     }
     try {
-      const statuses = await Status.find({todo});
+      const statuses = await Status.find({todo: todo});
       return statuses.map(status => {
         return {
             ...status._doc,
-            id: status.id,
+            id: status._id,
             createdAt: new Date(status._doc.createdAt).toISOString(),
-            updatedAt: new Date(status._doc.updatedAt).toISOString(),
           }
         }
       )

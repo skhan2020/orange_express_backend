@@ -136,6 +136,15 @@ module.exports = {   // resolver
       user.createdTodos.push(todo)
       return user.save();
     })
+   .then(res =>
+      {
+        const status = new Status({
+          type: 1000,
+          todo: createdTodo._id
+        });
+        return status.save();
+      }
+    )
    .then(result => {
     return createdTodo;
    })

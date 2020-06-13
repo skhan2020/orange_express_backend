@@ -31,7 +31,6 @@ input TodoInput {
 type AuthData {
   userId: ID!
   token: String!
-  tokenExpiration: Int!
 }
 type User {
   _id: ID!
@@ -54,7 +53,7 @@ input UserInput {
 type Status {
   _id: ID!
   type: Int!
-  todo: Todo!
+  todo: ID!
   createdAt: String!
   updatedAt: String!
 }
@@ -64,13 +63,12 @@ input StatusInput {
 }
 type RootQuery {
   todos: [Todo!]
-  statuses(todo: String!): [Status!]
+  statuses(todo: ID!): [Status!]
   login(email: String!, password:String!, expiration:Int!) : AuthData!
 }
 type RootMutation {
   createUser(userInput: UserInput): User
   createTodo(todoInput: TodoInput): Todo
-  UpdateTodo(todoInput: TodoInput): Todo
   deleteTodo(todoId: ID!): Todo
   updateTodo(id:ID!, projectedStartTime:String, projectedEndTime:String, status:Int, notes:String, statusUpdatedTime: String, tags: [String!]): Todo
   addStatus(statusInput: StatusInput): Status

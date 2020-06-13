@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 
 app.use(( req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  // preflight request to check with the servers if these
+  // methods are allowed on the particular resource
   res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS")
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   if (req.method === "OPTIONS") {
