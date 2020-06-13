@@ -31,6 +31,7 @@ input TodoInput {
 type AuthData {
   userId: ID!
   token: String!
+  tokenExpiration: String!
 }
 type User {
   _id: ID!
