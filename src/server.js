@@ -35,7 +35,7 @@ app.use('/graphqlapi', graphqlHttp({
   graphiql: true,
 }))
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-nc0xa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const uri = process.env.MONGODB_URL || `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-nc0xa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 
 const PORT = process.env.PORT || 4000;
 
