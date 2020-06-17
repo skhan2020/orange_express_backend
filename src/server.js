@@ -37,6 +37,8 @@ app.use('/graphqlapi', graphqlHttp({
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-nc0xa.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 
+const PORT = process.env.PORT || 4000;
+
 mongoose.connect(uri, 
 { useNewUrlParser: true, 
   useUnifiedTopology: true,
@@ -44,8 +46,8 @@ mongoose.connect(uri,
   useFindAndModify: false
  }
 ).then(
-  app.listen(4000, function () {
-    console.log('Example app listening on port 4000!');
+  app.listen(PORT, function () {
+    console.log(`Example app listening on port ${PORT}!`);
   })
 ).catch(
   err => {
