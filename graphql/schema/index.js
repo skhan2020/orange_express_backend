@@ -65,6 +65,7 @@ input StatusInput {
 type RootQuery {
   todos: [Todo!]
   statuses(todo: ID!): [Status!]
+  filteredTodos(filter: String!, type: String!) : [Todo!]
   login(email: String!, password:String!, expiration:Int!) : AuthData!
 }
 type RootMutation {

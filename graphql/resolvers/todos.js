@@ -40,8 +40,28 @@ const user = userId => {
 }
 
 module.exports = {   // resolver
-  todos: (args, req) => {
+  todos: (args, req) => { 
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!')
+    }
     return Todo.find({creator: req.userId})
+    .then(todos => {
+      return todos.map(todo => {
+        return {...todo._doc,
+                _id: todo.id,
+                statusUpdatedTime: new Date(todo._doc.statusUpdatedTime).toISOString(),
+                projectedEndTime: new Date(todo._doc.projectedEndTime).toISOString(),
+                projectedStartTime: new Date(todo._doc.projectedStartTime).toISOString(),
+                creator: user.bind(this, todo._doc.creator)}  // creates a new object with out any matadata
+      })
+    }
+    ).catch(err => console.log(err))
+  },
+  filteredTodos: ({type, filter}, req) => { 
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!')
+    }
+    return Todo.find({[type]: filter})
     .then(todos => {
       return todos.map(todo => {
         return {...todo._doc,
@@ -151,9 +171,9 @@ module.exports = {   // resolver
    .catch(err => console.log(err));
   },
   deleteTodo: async (args, req) => {
-    // if (!req.isAuth) {
-    //  throw new Error('Unauthenticated!')
-    // }
+    if (!req.isAuth) {
+     throw new Error('Unauthenticated!')
+    }
     try {
       const deletedTodo = await Todo.findByIdAndDelete(args.todoId).populate('todo');
       if (!deletedTodo) {
