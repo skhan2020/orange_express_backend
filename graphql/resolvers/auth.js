@@ -18,7 +18,8 @@ module.exports = {   // resolver
         type: args.userInput.type,
         firstName: args.userInput.firstName,
         lastName: args.userInput.lastName,
-        password: hashedPW
+        password: hashedPW,
+        accountType: 'trial'
      });
      return user.save()
     })
@@ -45,7 +46,7 @@ module.exports = {   // resolver
     }
     // check trial expiration date
     const createdAt = new Date(user.createdAt);
-    if (expiration !== 0) {
+    if (user.accountType === 'trial' && expiration !== 0) {
       const timePassed = Date.now() - createdAt.getTime();
       const noOfDaysExceeded = timePassed > expiration * milisecondInADay;
       if (noOfDaysExceeded) {
