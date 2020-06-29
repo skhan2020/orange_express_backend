@@ -186,7 +186,7 @@ module.exports = {   // resolver
       user.createdTodos.pop(args.todoId)
       await user.save();
       await Status.deleteMany({todo: {$in: args.todoId}}).populate('status');
-      return deletedTodo._id;
+      return deletedTodo;
     } catch(err) {
       throw err; 
     }

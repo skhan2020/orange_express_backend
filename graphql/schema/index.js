@@ -42,6 +42,20 @@ input NoteInput {
   title: String!
   text: String!
 }
+type Video {
+  _id: ID!
+  category: String!
+  title: String!
+  link: String!
+  creator: User!
+  createdAt: String!
+  updatedAt: String!
+}
+input VideoInput {
+  category: String!
+  title: String!
+  link: String!
+}
 type AuthData {
   userId: ID!
   token: String!
@@ -80,6 +94,7 @@ input StatusInput {
 type RootQuery {
   todos: [Todo!]
   notes: [Note!]
+  videos: [Video!]
   statuses(todo: ID!): [Status!]
   filteredTodos(filter: String!, type: String!) : [Todo!]
   login(email: String!, password:String!, expiration:Int!) : AuthData!
@@ -93,6 +108,8 @@ type RootMutation {
   createNote(noteInput: NoteInput!): Note
   updateNote(id:ID!, title:String! , category:String! , text:String! ): Note
   deleteNote(noteId: ID!): Note
+  createVideo(videoInput: VideoInput!): Video
+  deleteVideo(videoId: ID!): Video
 }
 schema {
   query: RootQuery
