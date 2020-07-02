@@ -61,7 +61,8 @@ module.exports = {   // resolver
     if (!req.isAuth) {
       throw new Error('Unauthenticated!')
     }
-    return Todo.find({[type]: filter})
+    return Todo.find({creator: req.userId}).populate('todos')
+    .find({[type]: filter})
     .then(todos => {
       return todos.map(todo => {
         return {...todo._doc,
