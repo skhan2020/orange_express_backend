@@ -1,10 +1,10 @@
 # `Orange backend`
 
-The `orange_express_backend` is an express server build to make calls to MongoDB for authentication and data and powers the Orange front-end application. Data in fetched from MonggoDB Atlas service so a local database server is not required. 
-
-The `front-end` code cal be found [here](https://github.com/skhan2020/orange_react_frontend).
+The `orange_express_backend` is an express server build to make calls to MongoDB for authentication and data and powers the Orange front-end application. Data in fetched from MongoDB Atlas cloud service so running a local database server is not required. 
 
 Try out the application at [demo](https://orangeplanner-32d6f.firebaseapp.com/landing)
+
+The `front-end` code can be found [here](https://github.com/skhan2020/orange_react_frontend).
 
 # Getting started
 
