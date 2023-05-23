@@ -1,7 +1,6 @@
 {
   "env": {
     "MONGO_USER": "samsam",
-    "MONGO_PASSWORD": "abcd",
-    "MONGO_DB": "study-track-dev"
+    "MONGO_PASSWORD": "abcd"
   }
 }
